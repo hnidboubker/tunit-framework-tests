@@ -15,12 +15,12 @@ namespace IntApplication.UnitTests.Services
     {
         private readonly Mock<UserManager<User>> UserManagerMock;
         private readonly Mock<RoleManager<Role>> RoleManagerMock; 
-        private readonly IUserService _sut;
+        private readonly  IUserService Sut;
 
         public UserServiceTests()
         {
             UserManagerMock = CreateUserManagerMock();
-            _sut = new UserService(UserManagerMock.Object, RoleManagerMock.Object);
+            Sut = new UserService(UserManagerMock.Object, RoleManagerMock.Object);
         }
 
         private static Mock<UserManager<User>> CreateUserManagerMock()
@@ -57,7 +57,7 @@ namespace IntApplication.UnitTests.Services
                 .Returns(helper);
 
             // Act
-            var result = await _sut.GetUsersAsync();
+            var result = await Sut.GetUsersAsync();
 
             // Assert
             await Assert.That(result).IsNotNull();
@@ -106,7 +106,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(Array.Empty<string>());
 
             // Act
-            var result = await _sut.GetUsersAsync();
+            var result = await Sut.GetUsersAsync();
 
             // Assert
             await Assert.That(result).Count().IsEqualTo(3);
@@ -148,7 +148,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(new[] { "Admin" });
 
             // Act
-            var result = await _sut.GetUsersAsync();
+            var result = await Sut.GetUsersAsync();
 
             // Assert
             await Assert.That(result).Count().IsEqualTo(1);
@@ -188,7 +188,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(Array.Empty<string>());
 
             // Act
-            var result = await _sut.GetUsersAsync();
+            var result = await Sut.GetUsersAsync();
 
             // Assert
             await Assert.That(result[0].Tenant)
@@ -232,7 +232,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(new[] { "User" });
 
             // Act
-            var result = await _sut.GetUsersAsync();
+            var result = await Sut.GetUsersAsync();
 
             // Assert
             await Assert.That(result[0].Roles)
@@ -281,7 +281,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = await _sut.CreateAsync(dto);
+            var result = await Sut.CreateAsync(dto);
 
             // Assert
             await Assert.That(result.Succeeded).IsTrue();
@@ -323,7 +323,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            await _sut.CreateAsync(dto);
+            await Sut.CreateAsync(dto);
 
             // Assert
             UserManagerMock.Verify(
@@ -361,7 +361,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            await _sut.CreateAsync(dto);
+            await Sut.CreateAsync(dto);
 
             // Assert
             UserManagerMock.Verify(
@@ -394,7 +394,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            await _sut.CreateAsync(dto);
+            await Sut.CreateAsync(dto);
 
             // Assert
             UserManagerMock.Verify(
@@ -425,7 +425,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            await _sut.CreateAsync(dto);
+            await Sut.CreateAsync(dto);
 
             // Assert
             UserManagerMock.Verify(
@@ -468,7 +468,7 @@ namespace IntApplication.UnitTests.Services
 
             // Act
             var exception = await Assert.ThrowsAsync<Exception>(
-                () => _sut.CreateAsync(dto));
+                () => Sut.CreateAsync(dto));
 
             // Assert
             await Assert.That(exception.Message)
@@ -502,7 +502,7 @@ namespace IntApplication.UnitTests.Services
 
             // Act
             await Assert.ThrowsAsync<Exception>(
-                () => _sut.CreateAsync(dto));
+                () => Sut.CreateAsync(dto));
 
             // Assert
             UserManagerMock.Verify(
@@ -533,7 +533,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            await _sut.CreateAsync(dto);
+            await Sut.CreateAsync(dto);
 
             // Assert
             UserManagerMock.Verify(
