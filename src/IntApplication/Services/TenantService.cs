@@ -8,7 +8,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IntApplication.Services
 {
-    public class TenantService
+    public interface ITenantService
+    {
+        Task<Tenant> CreateAsync(CreateTenantDto dto);
+        Task<Tenant> CreateTenantWithUserAdminAsync(CreateTenantWithUserAdminDto dto);
+        Task DeleteAsync(int id);
+        Task<Tenant> EditAsync(EditTenantDto dto);
+        Task<Tenant> EditTenantWithUserAdminAsync(EditTenantWithUserAdminDto dto);
+        Task RemoveAsync(int id);
+    }
+
+    public class TenantService : ITenantService
     {
         private readonly ITenantManager TenantManager;
         private readonly UserManager<User> UserManager;

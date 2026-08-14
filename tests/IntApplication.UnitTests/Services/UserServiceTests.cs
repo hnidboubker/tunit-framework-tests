@@ -9,8 +9,6 @@ using Moq;
 
 namespace IntApplication.UnitTests.Services
 {
-
-
     public class UserServiceTests
     {
         private readonly Mock<UserManager<User>> UserManagerMock;
@@ -64,7 +62,7 @@ namespace IntApplication.UnitTests.Services
 
             // Arrange
             var users = new List<User>();
-            var helper = QuerableHelper.CreateAsyncQueryable(users);
+            var helper = QuerableHelper.CreateUserAsyncQueryable(users);
             UserManagerMock
                 .Setup(x => x.Users)
                 .Returns(helper);
@@ -109,7 +107,7 @@ namespace IntApplication.UnitTests.Services
             }
         };
 
-            var helper = QuerableHelper.CreateAsyncQueryable(users);
+            var helper = QuerableHelper.CreateUserAsyncQueryable(users);
             UserManagerMock
                 .Setup(x => x.Users)
                 .Returns(helper);
@@ -151,7 +149,7 @@ namespace IntApplication.UnitTests.Services
                     Name = "My Tenant"
                 }
             };
-            var helper = QuerableHelper.CreateAsyncQueryable(new[] { user });
+            var helper = QuerableHelper.CreateUserAsyncQueryable(new[] { user });
             UserManagerMock
                 .Setup(x => x.Users)
                 .Returns(helper);
@@ -191,7 +189,7 @@ namespace IntApplication.UnitTests.Services
                 Email = "john@test.com",
                 Tenant = null
             };
-            var helper = QuerableHelper.CreateAsyncQueryable(new[] { user });
+            var helper = QuerableHelper.CreateUserAsyncQueryable(new[] { user });
             UserManagerMock
                 .Setup(x => x.Users)
                 .Returns(helper);
@@ -227,7 +225,7 @@ namespace IntApplication.UnitTests.Services
                 LastName = "User",
                 Email = "user@test.com"
             };
-            var helper = QuerableHelper.CreateAsyncQueryable(new[]
+            var helper = QuerableHelper.CreateUserAsyncQueryable(new[]
                 {
                 admin,
                 normalUser
