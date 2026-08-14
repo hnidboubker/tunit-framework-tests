@@ -79,6 +79,7 @@ namespace IntApplication.UnitTests.Services
                 Name = "Acme"
             };
 
+           
             TenantManager
                 .Setup(x => x.CreateAsync(It.IsAny<Tenant>()))
                 .Callback<Tenant>(tenant =>
