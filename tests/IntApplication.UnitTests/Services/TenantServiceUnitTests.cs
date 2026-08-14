@@ -14,7 +14,7 @@ namespace IntApplication.UnitTests.Services
     {
         private const string TenantAdminRole = "TenantAdmin";
 
-        private Mock<ITenantManager> _tenantManager = null!;
+        private Mock<ITenantManager> TenantManager = null!;
         private Mock<UserManager<User>> _userManager = null!;
         private Mock<RoleManager<Role>> _roleManager = null!;
         private Mock<IUnitOfWork> _unitOfWork = null!;
@@ -24,7 +24,7 @@ namespace IntApplication.UnitTests.Services
         [Before(Test)]
         public void Setup()
         {
-            _tenantManager = new Mock<ITenantManager>();
+            TenantManager = new Mock<ITenantManager>();
 
             _userManager = new Mock<UserManager<User>>(
                 Mock.Of<IUserStore<User>>(),
@@ -51,7 +51,7 @@ namespace IntApplication.UnitTests.Services
                 .ReturnsAsync(1);
 
             _sut = new TenantService(
-                _tenantManager.Object,
+                TenantManager.Object,
                 _userManager.Object,
                 _roleManager.Object,
                 _unitOfWork.Object);
@@ -79,7 +79,7 @@ namespace IntApplication.UnitTests.Services
                 Name = "Acme"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.CreateAsync(It.IsAny<Tenant>()))
                 .Callback<Tenant>(tenant =>
                 {
@@ -95,7 +95,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(result.Id).IsEqualTo(1);
             await Assert.That(result.Name).IsEqualTo("Acme");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.CreateAsync(
                     It.Is<Tenant>(t =>
                         t.Name == "Acme")),
@@ -132,7 +132,7 @@ namespace IntApplication.UnitTests.Services
                 Password = "Password123!"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.CreateAsync(It.IsAny<Tenant>()))
                 .Callback<Tenant>(tenant =>
                 {
@@ -169,7 +169,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(result.Id).IsEqualTo(1);
             await Assert.That(result.Name).IsEqualTo("Acme");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.CreateAsync(
                     It.Is<Tenant>(t =>
                         t.Name == "Acme")),
@@ -220,7 +220,7 @@ namespace IntApplication.UnitTests.Services
                 Password = "Password123!"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.CreateAsync(It.IsAny<Tenant>()))
                 .Callback<Tenant>(tenant =>
                 {
@@ -276,7 +276,7 @@ namespace IntApplication.UnitTests.Services
                 Password = "Password123!"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.CreateAsync(It.IsAny<Tenant>()))
                 .Callback<Tenant>(tenant =>
                 {
@@ -336,7 +336,7 @@ namespace IntApplication.UnitTests.Services
                 Password = "Password123!"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.CreateAsync(It.IsAny<Tenant>()))
                 .Callback<Tenant>(tenant =>
                 {
@@ -396,7 +396,7 @@ namespace IntApplication.UnitTests.Services
                 Password = "Password123!"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.CreateAsync(It.IsAny<Tenant>()))
                 .Callback<Tenant>(tenant =>
                 {
@@ -456,7 +456,7 @@ namespace IntApplication.UnitTests.Services
         public async Task EditAsync_WhenTenantDoesNotExist_ShouldThrowKeyNotFoundException()
         {
             // Arrange
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
@@ -477,7 +477,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(exception.Message)
                 .IsEqualTo("Tenant '999' not found.");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.EditAsync(It.IsAny<Tenant>()),
                 Times.Never);
 
@@ -496,13 +496,13 @@ namespace IntApplication.UnitTests.Services
                 Name = "Old Name"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
                         new[] { tenant }));
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.EditAsync(It.IsAny<Tenant>()))
                 .ReturnsAsync((Tenant tenant) => tenant);
 
@@ -519,7 +519,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(result).IsSameReferenceAs(tenant);
             await Assert.That(result.Name).IsEqualTo("New Name");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.EditAsync(
                     It.Is<Tenant>(t =>
                         t.Id == 1 &&
@@ -548,7 +548,7 @@ namespace IntApplication.UnitTests.Services
         public async Task EditTenantWithUserAdminAsync_WhenTenantDoesNotExist_ShouldThrowKeyNotFoundException()
         {
             // Arrange
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
@@ -573,7 +573,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(exception.Message)
                 .IsEqualTo("Tenant '999' not found.");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.EditAsync(It.IsAny<Tenant>()),
                 Times.Never);
 
@@ -592,7 +592,7 @@ namespace IntApplication.UnitTests.Services
                 Name = "Old Tenant"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
@@ -604,7 +604,7 @@ namespace IntApplication.UnitTests.Services
                     QuerableHelper.CreateUserAsyncQueryable(
                         Enumerable.Empty<User>()));
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.EditAsync(It.IsAny<Tenant>()))
                .ReturnsAsync((Tenant tenant) => tenant);
 
@@ -627,7 +627,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(exception.Message)
                 .IsEqualTo("User '999' not found.");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.EditAsync(It.IsAny<Tenant>()),
                 Times.Once);
 
@@ -660,7 +660,7 @@ namespace IntApplication.UnitTests.Services
                 UserName = "old@test.com"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
@@ -672,7 +672,7 @@ namespace IntApplication.UnitTests.Services
                     QuerableHelper.CreateUserAsyncQueryable(
                         new[] { user }));
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.EditAsync(It.IsAny<Tenant>()))
                 .ReturnsAsync((Tenant tenant) => tenant);
 
@@ -736,7 +736,7 @@ namespace IntApplication.UnitTests.Services
                 UserName = "old@test.com"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
@@ -748,7 +748,7 @@ namespace IntApplication.UnitTests.Services
                     QuerableHelper.CreateUserAsyncQueryable(
                         new[] { user }));
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.EditAsync(It.IsAny<Tenant>()))
                 .ReturnsAsync((Tenant tenant) => tenant);
 
@@ -788,7 +788,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(user.UserName)
                 .IsEqualTo("john@test.com");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.EditAsync(
                     It.Is<Tenant>(t =>
                         t.Id == 1 &&
@@ -819,7 +819,7 @@ namespace IntApplication.UnitTests.Services
         public async Task RemoveAsync_WhenTenantDoesNotExist_ShouldThrowKeyNotFoundException()
         {
             // Arrange
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
@@ -834,7 +834,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(exception.Message)
                 .IsEqualTo("Tenant '999' not found.");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.RemoveAsync(It.IsAny<Tenant>()),
                 Times.Never);
 
@@ -853,13 +853,13 @@ namespace IntApplication.UnitTests.Services
                 Name = "Acme"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
                         new[] { tenant }));
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.RemoveAsync(It.IsAny<Tenant>()))
                 .Returns(Task.CompletedTask);
 
@@ -867,7 +867,7 @@ namespace IntApplication.UnitTests.Services
             await _sut.RemoveAsync(1);
 
             // Assert
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.RemoveAsync(
                     It.Is<Tenant>(t =>
                         t.Id == 1 &&
@@ -887,7 +887,7 @@ namespace IntApplication.UnitTests.Services
         public async Task DeleteAsync_WhenTenantDoesNotExist_ShouldThrowKeyNotFoundException()
         {
             // Arrange
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
@@ -902,7 +902,7 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(exception.Message)
                 .IsEqualTo("Tenant '999' not found.");
 
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.DeleteAsync(It.IsAny<Tenant>()),
                 Times.Never);
 
@@ -921,13 +921,13 @@ namespace IntApplication.UnitTests.Services
                 Name = "Acme"
             };
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
                         new[] { tenant }));
 
-            _tenantManager
+            TenantManager
                 .Setup(x => x.DeleteAsync(It.IsAny<Tenant>()))
                 .Returns(Task.CompletedTask);
 
@@ -935,7 +935,7 @@ namespace IntApplication.UnitTests.Services
             await _sut.DeleteAsync(1);
 
             // Assert
-            _tenantManager.Verify(
+            TenantManager.Verify(
                 x => x.DeleteAsync(
                     It.Is<Tenant>(t =>
                         t.Id == 1 &&
