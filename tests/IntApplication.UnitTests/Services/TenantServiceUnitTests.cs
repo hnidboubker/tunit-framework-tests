@@ -887,7 +887,7 @@ namespace IntApplication.UnitTests.Services
 
             TenantManager
                 .Setup(x => x.RemoveAsync(It.IsAny<Tenant>()))
-                .Returns((Tenant t) => t);
+                .Returns(Task.CompletedTask);
 
             _unitOfWork
                 .Setup(x => x.SaveChangesAsync())
@@ -961,7 +961,7 @@ namespace IntApplication.UnitTests.Services
 
             TenantManager
                 .Setup(x => x.DeleteAsync(It.IsAny<Tenant>()))
-                .Returns((Tenant t) => t);
+                .Returns(Task.CompletedTask);
 
             _unitOfWork
                 .Setup(x => x.SaveChangesAsync())
