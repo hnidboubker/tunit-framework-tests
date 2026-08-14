@@ -6,13 +6,13 @@ Unit tests for the **IntCore** and **IntApplication** libraries, built with [![N
 
 ## Solution Overview
 
-| Project | Target Framework | NuGet Packages | Test Framework | Project References |
-|---------|-----------------|----------------|----------------|--------------------|
-| `IntCore` | net10.0 | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 10.0.11 | — | — |
-| `IntEntityFrameworkCore` | net10.0 | — | — | `IntCore` |
-| `IntApplication` | net10.0 | — | — | `IntEntityFrameworkCore` |
-| `IntCore.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 | TUnit · Moq | `IntCore` (tests only) |
-| `IntApplication.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 | TUnit · Moq | `IntApplication` (tests only) |
+| Project | Target Framework | NuGet Packages |
+|---------|-----------------|----------------|
+| `IntCore` | net10.0 | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 10.0.11 |
+| `IntEntityFrameworkCore` | net10.0 | — |
+| `IntApplication` | net10.0 | — |
+| `IntCore.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 |
+| `IntApplication.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 |
 
 ## Solution Structure
 
@@ -72,13 +72,13 @@ tunit-framework-tests/
 
 ## Dependencies
 
-| Project | NuGet Packages | Project References |
-|---------|---------------|-------------------|
-| `IntCore` | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 10.0.11 | — |
-| `IntEntityFrameworkCore` | — | `IntCore` |
-| `IntApplication` | — | `IntEntityFrameworkCore` |
-| `IntCore.UnitTests` | `TUnit` 1.65.0 · `Moq` 4.20.72 | `IntCore` |
-| `IntApplication.UnitTests` | `TUnit` 1.65.0 · `Moq` 4.20.72 | `IntApplication` |
+| Project | NuGet Packages |
+|---------|---------------|
+| `IntCore` | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 10.0.11 |
+| `IntEntityFrameworkCore` | — |
+| `IntApplication` | — |
+| `IntCore.UnitTests` | `TUnit` 1.65.0 · `Moq` 4.20.72 |
+| `IntApplication.UnitTests` | `TUnit` 1.65.0 · `Moq` 4.20.72 |
 
 ## Building
 
