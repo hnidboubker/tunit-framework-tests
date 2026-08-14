@@ -7,6 +7,8 @@ using IntInfrastructure.Configurations;
 using IntInfrastructure.Managers;
 using Microsoft.AspNetCore.Identity;
 using Moq;
+using TUnit.Core;
+
 
 namespace IntApplication.UnitTests.Services
 {
@@ -403,7 +405,7 @@ namespace IntApplication.UnitTests.Services
                 {
                     tenant.Id = 1;
                 })
-                .Returns((Tenant tenant) => tenant);
+                .ReturnsAsync((Tenant tenant) => tenant);
 
             _userManager
                 .Setup(x => x.CreateAsync(
@@ -488,7 +490,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task EditAsync_ShouldUpdateTenant()
+        public async Task EditAsync_Should_Update_Tenant()
         {
             // Arrange
             var tenant = new Tenant
@@ -537,13 +539,17 @@ namespace IntApplication.UnitTests.Services
         // ============================================================
 
         [Test]
-        public async Task EditTenantWithUserAdminAsync_WhenDtoIsNull_ShouldThrowArgumentNullException()
+        public async Task EditTenantWithUserAdminAsync_When_Dto_IsNull_ShouldThrow_ArgumentNull_Exception()
         {
             // Act & Assert
             await Assert.That(
                     () => _sut.EditTenantWithUserAdminAsync(null!))
                 .Throws<ArgumentNullException>();
         }
+
+        // ============================================================
+        // EditTenantWithUserAdminAsync
+        // ============================================================
 
         [Test]
         public async Task EditTenantWithUserAdminAsync_WhenTenantDoesNotExist_ShouldThrowKeyNotFoundException()
@@ -578,10 +584,15 @@ namespace IntApplication.UnitTests.Services
                 x => x.EditAsync(It.IsAny<Tenant>()),
                 Times.Never);
 
+            _userManager.Verify(
+                x => x.UpdateAsync(It.IsAny<User>()),
+                Times.Never);
+
             _unitOfWork.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
+
 
         [Test]
         public async Task EditTenantWithUserAdminAsync_WhenUserDoesNotExist_ShouldThrowKeyNotFoundException()
@@ -607,7 +618,7 @@ namespace IntApplication.UnitTests.Services
 
             TenantManager
                 .Setup(x => x.EditAsync(It.IsAny<Tenant>()))
-               .ReturnsAsync((Tenant tenant) => tenant);
+                .ReturnsAsync((Tenant t) => t);
 
             var dto = new EditTenantWithUserAdminDto
             {
@@ -629,7 +640,10 @@ namespace IntApplication.UnitTests.Services
                 .IsEqualTo("User '999' not found.");
 
             TenantManager.Verify(
-                x => x.EditAsync(It.IsAny<Tenant>()),
+                x => x.EditAsync(
+                    It.Is<Tenant>(t =>
+                        t.Id == 1 &&
+                        t.Name == "New Tenant")),
                 Times.Once);
 
             _userManager.Verify(
@@ -640,6 +654,7 @@ namespace IntApplication.UnitTests.Services
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
+
 
         [Test]
         public async Task EditTenantWithUserAdminAsync_WhenUserUpdateFails_ShouldThrowInvalidOperationException()
@@ -675,7 +690,7 @@ namespace IntApplication.UnitTests.Services
 
             TenantManager
                 .Setup(x => x.EditAsync(It.IsAny<Tenant>()))
-                .ReturnsAsync((Tenant tenant) => tenant);
+                .ReturnsAsync((Tenant t) => t);
 
             _userManager
                 .Setup(x => x.UpdateAsync(It.IsAny<User>()))
@@ -709,13 +724,16 @@ namespace IntApplication.UnitTests.Services
                 x => x.UpdateAsync(
                     It.Is<User>(u =>
                         u.Id == 10 &&
-                        u.Email == "john@test.com")),
+                        u.TenantId == 1 &&
+                        u.Email == "john@test.com" &&
+                        u.UserName == "john@test.com")),
                 Times.Once);
 
             _unitOfWork.Verify(
                 x => x.SaveChangesAsync(),
                 Times.Never);
         }
+
 
         [Test]
         public async Task EditTenantWithUserAdminAsync_ShouldUpdateTenantAndUser()
@@ -751,11 +769,15 @@ namespace IntApplication.UnitTests.Services
 
             TenantManager
                 .Setup(x => x.EditAsync(It.IsAny<Tenant>()))
-                .ReturnsAsync((Tenant tenant) => tenant);
+                .ReturnsAsync((Tenant t) => t);
 
             _userManager
                 .Setup(x => x.UpdateAsync(It.IsAny<User>()))
                 .ReturnsAsync(IdentityResult.Success);
+
+            _unitOfWork
+                .Setup(x => x.SaveChangesAsync())
+                .ReturnsAsync(1);
 
             var dto = new EditTenantWithUserAdminDto
             {
@@ -772,7 +794,8 @@ namespace IntApplication.UnitTests.Services
                 await _sut.EditTenantWithUserAdminAsync(dto);
 
             // Assert
-            await Assert.That(result).IsSameReferenceAs(tenant);
+            await Assert.That(result)
+                .IsSameReferenceAs(tenant);
 
             await Assert.That(tenant.Name)
                 .IsEqualTo("New Tenant");
@@ -812,6 +835,7 @@ namespace IntApplication.UnitTests.Services
                 Times.Once);
         }
 
+
         // ============================================================
         // RemoveAsync
         // ============================================================
@@ -844,6 +868,7 @@ namespace IntApplication.UnitTests.Services
                 Times.Never);
         }
 
+
         [Test]
         public async Task RemoveAsync_ShouldRemoveTenantAndSave()
         {
@@ -862,7 +887,11 @@ namespace IntApplication.UnitTests.Services
 
             TenantManager
                 .Setup(x => x.RemoveAsync(It.IsAny<Tenant>()))
-                .Returns(Task.CompletedTask);
+                .Returns((Tenant t) => t);
+
+            _unitOfWork
+                .Setup(x => x.SaveChangesAsync())
+                .ReturnsAsync(1);
 
             // Act
             await _sut.RemoveAsync(1);
@@ -879,6 +908,7 @@ namespace IntApplication.UnitTests.Services
                 x => x.SaveChangesAsync(),
                 Times.Once);
         }
+
 
         // ============================================================
         // DeleteAsync
@@ -912,6 +942,7 @@ namespace IntApplication.UnitTests.Services
                 Times.Never);
         }
 
+
         [Test]
         public async Task DeleteAsync_ShouldDeleteTenantAndSave()
         {
@@ -926,11 +957,15 @@ namespace IntApplication.UnitTests.Services
                 .Setup(x => x.Tenants)
                 .Returns(
                     QuerableHelper.CreateTenantAsyncQueryable(
-                        new[] { tenant }));
+                        new[] { tenant })); // <-- IMPORTANT : pas Empty
 
             TenantManager
                 .Setup(x => x.DeleteAsync(It.IsAny<Tenant>()))
-                .Returns(Task.CompletedTask);
+                .Returns((Tenant t) => t);
+
+            _unitOfWork
+                .Setup(x => x.SaveChangesAsync())
+                .ReturnsAsync(1);
 
             // Act
             await _sut.DeleteAsync(1);
