@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\DevOps\Desktop\Configuration Agents\Nouveau dossier (2)\src\IntCore\IntCore.csproj" />
+  </ItemGroup>
+
 </Project>
