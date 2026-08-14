@@ -2,7 +2,17 @@
 
 [![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)](https://github.com/hnidboubker/tunit-framework-tests)
 
-Unit tests for the **IntCore** library, built with [![NuGet Version](https://img.shields.io/nuget/v/TUnit.svg)](https://www.nuget.org/packages/TUnit) **TUnit** and [![NuGet Version](https://img.shields.io/nuget/v/Moq.svg)](https://www.nuget.org/packages/Moq) **Moq**.
+Unit tests for the **IntCore** and **IntApplication** libraries, built with [![NuGet Version](https://img.shields.io/nuget/v/TUnit.svg)](https://www.nuget.org/packages/TUnit) **TUnit** and [![NuGet Version](https://img.shields.io/nuget/v/Moq.svg)](https://www.nuget.org/packages/Moq) **Moq**.
+
+## Solution Overview
+
+| Project | Target Framework | NuGet Packages | Test Framework | Project References |
+|---------|-----------------|----------------|----------------|--------------------|
+| `IntCore` | net10.0 | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 10.0.11 | — | — |
+| `IntEntityFrameworkCore` | net10.0 | — | — | `IntCore` |
+| `IntApplication` | net10.0 | — | — | `IntEntityFrameworkCore` |
+| `IntCore.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 | TUnit · Moq | `IntCore` |
+| `IntApplication.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 | TUnit · Moq | `IntApplication` |
 
 ## Solution Structure
 
