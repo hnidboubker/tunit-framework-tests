@@ -14,17 +14,12 @@ and Moq
 tunit-framework-tests/
 ├── src/
 │   ├── IntCore/                        # Core library (net10.0)
-│   │   ├── DTOs/
-│   │   │   ├── UserDto.cs
-│   │   │   └── CreateUserDto.cs
-│   │   ├── Models/
-│   │   │   ├── Identity/
-│   │   │   │   ├── User.cs
-│   │   │   │   └── Role.cs
-│   │   │   └── MultiTenancy/
-│   │   │       └── Tenant.cs
-│   │   └── Services/
-│   │       └── UserService.cs
+│   │   └── Models/
+│   │       ├── Identity/
+│   │       │   ├── User.cs
+│   │       │   └── Role.cs
+│   │       └── MultiTenancy/
+│   │           └── Tenant.cs
 │   ├── IntEntityFrameworkCore/         # EF Core persistence (net10.0)
 │   │   └── Persistence/
 │   │       └── DefaultContext.cs
@@ -37,8 +32,12 @@ tunit-framework-tests/
 │           └── UserService.cs
 ├── tests/
 │   ├── IntCore.UnitTests/              # Unit tests for IntCore (net10.0)
-│   │   └── User/
-│   │       └── UserUnitTests.cs
+│   │   ├── User/
+│   │   │   └── UserUnitTests.cs
+│   │   ├── Role/
+│   │   │   └── RoleUnitTests.cs
+│   │   └── Tenant/
+│   │       └── TenantTests.cs
 │   └── IntApplication.UnitTests/       # Unit tests for IntApplication (net10.0)
 │       ├── Services/
 │       │   └── UserServiceTests.cs
@@ -59,9 +58,9 @@ tunit-framework-tests/
 
 | Project | Target Framework | Purpose |
 |---------|-----------------|---------|
-| `IntCore` | net10.0 | Core library providing domain models, DTOs, and user management primitives with ASP.NET Core Identity |
+| `IntCore` | net10.0 | Core library providing domain models (`User`, `Role`, `Tenant`) |
 | `IntEntityFrameworkCore` | net10.0 | EF Core persistence layer, provides `DefaultContext` (IdentityDbContext) |
-| `IntApplication` | net10.0 | Application layer with business services (`UserService`) orchestrating Identity operations |
+| `IntApplication` | net10.0 | Application layer with DTOs and business services (`UserService`) |
 | `IntCore.UnitTests` | net10.0 | Unit tests for `IntCore` |
 | `IntApplication.UnitTests` | net10.0 | Unit tests for `IntApplication.UserService` |
 
@@ -100,4 +99,4 @@ dotnet test
 
 ## License
 
-MIT License 
+MIT License
