@@ -3,8 +3,9 @@
 [![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)](https://github.com/hnidboubker/tunit-framework-tests)
 
 Unit tests for the **IntCore** library, built with
+TUnit
 [![NuGet Version](https://img.shields.io/nuget/v/TUnit.svg)](https://www.nuget.org/packages/TUnit)
-and
+and Moq
 [![NuGet Version](https://img.shields.io/nuget/v/Moq.svg)](https://www.nuget.org/packages/Moq).
 
 ## Solution Structure
