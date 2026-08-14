@@ -56,4 +56,4 @@ dotnet test
 
 ## License
 
-MIT License — Copyright (c) 2026 NID BOUBKER Houssine
+MIT License 
