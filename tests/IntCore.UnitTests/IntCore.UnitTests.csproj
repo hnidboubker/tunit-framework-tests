@@ -18,6 +18,4 @@
     <ProjectReference Include="..\..\src\IntCore\IntCore.csproj" />
   </ItemGroup>
 
-
-
 </Project>
