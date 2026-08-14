@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="src/IntApplication/IntApplication.csproj" Id="13ecaef8-907e-4d1e-b08e-4c2570f372ce" />
   <Project Path="src/IntCore/IntCore.csproj" Id="e1d34d9c-beb0-4ac2-afc2-245b9cfc05da" />
+  <Project Path="src/IntEntityFrameworkCore/IntEntityFrameworkCore.csproj" />
+  <Project Path="tests/IntApplication.UnitTests/IntApplication.UnitTests.csproj" Id="10bb42aa-4fe9-4ee6-8174-8954cfb5f8c2" />
   <Project Path="tests/IntCore.UnitTests/IntCore.UnitTests.csproj" Id="f2fa8bd9-d8fc-4cf8-92aa-6adf8f6789bb" />
 </Solution>

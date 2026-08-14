@@ -8,10 +8,11 @@ namespace IntApplication.Services
     public class UserService
     {
         private readonly UserManager<User> UserManager;
-
-        public UserService(UserManager<User> userManager)
+        private readonly RoleManager<Role> RoleManager;
+        public UserService(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             UserManager = userManager;
+            RoleManager = roleManager;
         }
 
 
