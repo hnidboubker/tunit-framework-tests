@@ -1,4 +1,4 @@
-﻿using IntCore.UnitTests;
+﻿
 using System.Linq.Expressions;
 
 namespace IntApplication.UnitTests.Collections
