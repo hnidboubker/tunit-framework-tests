@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace IntCore.Models.Identity
 {
-    internal class Role
+    public class Role : IdentityRole<int>
     {
     }
 }
