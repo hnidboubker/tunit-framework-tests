@@ -15,7 +15,7 @@ namespace IntApplication.UnitTests.Services
     {
         private readonly Mock<UserManager<User>> UserManagerMock;
         private readonly Mock<RoleManager<Role>> RoleManagerMock; 
-        private readonly UserService _sut;
+        private readonly IUserService _sut;
 
         public UserServiceTests()
         {

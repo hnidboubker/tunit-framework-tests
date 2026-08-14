@@ -5,7 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IntApplication.Services
 {
-    public class UserService
+    public interface IUserService
+    {
+        Task<IdentityResult> CreateAsync(CreateUserDto dto);
+        Task<IReadOnlyList<UserDto>> GetUsersAsync();
+    }
+
+    public class UserService : IUserService
     {
         private readonly UserManager<User> UserManager;
         private readonly RoleManager<Role> RoleManager;
