@@ -1,7 +1,7 @@
 
 # TUnit Framework Tests
 
-[![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)](https://github.com/hnidboubker/tunit-framework-tests)/actions/workflows/build-tests.yml)
+[![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)](https://github.com/hnidboubker/tunit-framework-tests)
 
 Unit tests for the **IntCore** library, built with [TUnit](https://github.com/thomhurst/TUnit) and [Moq](https://github.com/moq/moq).
 
