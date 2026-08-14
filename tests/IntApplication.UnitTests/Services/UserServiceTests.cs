@@ -20,6 +20,7 @@ namespace IntApplication.UnitTests.Services
         public UserServiceTests()
         {
             UserManagerMock = CreateUserManagerMock();
+            RoleManagerMock  = CreateRoleManagerMock();
             Sut = new UserService(UserManagerMock.Object, RoleManagerMock.Object);
         }
 
@@ -39,12 +40,24 @@ namespace IntApplication.UnitTests.Services
                 null!);
         }
 
+        private static Mock<RoleManager<Role>> CreateRoleManagerMock()
+        {
+            var store = new Mock<IRoleStore<Role>>();
+
+            return new Mock<RoleManager<Role>>(
+                store.Object,
+                Array.Empty<IRoleValidator<Role>>(),
+                new UpperInvariantLookupNormalizer(),
+                new IdentityErrorDescriber(),
+                null!);
+        }
+
         // ============================================================
         // GetUsersAsync
         // ============================================================
 
         [Test]
-        public async Task GetUsersAsync_Should_ReturnEmptyList_WhenNoUsersExist()
+        public async Task GetUsersAsync_Should_Return_EmptyList_When_NoUsers_Exist()
         {
 
 
@@ -65,7 +78,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task GetUsersAsync_ShouldReturnAllUsers()
+        public async Task GetUsersAsync_Should_Return_AllUsers()
         {
             // Arrange
             var users = new List<User>
@@ -122,7 +135,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task GetUsersAsync_ShouldMapUserProperties()
+        public async Task GetUsersAsync_Should_MapUser_Properties()
         {
             // Arrange
             var user = new IntCore.Models.Identity.User
@@ -167,7 +180,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task GetUsersAsync_ShouldReturnEmptyTenant_WhenTenantIsNull()
+        public async Task GetUsersAsync_Should_Return_EmptyTenant_When_Tenant_IsNull()
         {
             // Arrange
             var user = new User
@@ -196,7 +209,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task GetUsersAsync_ShouldGetRolesForEachUser()
+        public async Task GetUsersAsync_Should_GetRoles_ForEach_User()
         {
             // Arrange
             var admin = new User
@@ -255,7 +268,7 @@ namespace IntApplication.UnitTests.Services
         // ============================================================
 
         [Test]
-        public async Task CreateAsync_ShouldCreateUserWithCorrectProperties()
+        public async Task CreateAsync_Should_Create_User_With_Correct_Properties()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -304,7 +317,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldPassPasswordToUserManager()
+        public async Task CreateAsync_Should_Pass_Password_To_UserManager()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -334,7 +347,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldAddRoles_WhenRolesAreProvided()
+        public async Task CreateAsync_Should_AddRoles_When_Roles_Are_Provided()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -374,7 +387,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldNotAddRoles_WhenRolesAreNull()
+        public async Task CreateAsync_ShouldNot_AddRoles_When_Roles_Are_Null()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -405,7 +418,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldNotAddRoles_WhenRolesAreEmpty()
+        public async Task CreateAsync_ShouldNot_AddRoles_When_Roles_Are_Empty()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -436,7 +449,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldThrowException_WhenCreationFails()
+        public async Task CreateAsync_ShouldThrow_Exception_When_Creation_Fails()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -476,7 +489,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldNotAddRoles_WhenCreationFails()
+        public async Task CreateAsync_ShouldNot_AddRoles_When_Creation_Fails()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -513,7 +526,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldAllowNullTenantId()
+        public async Task CreateAsync_ShouldAllow_Null_TenantId()
         {
             // Arrange
             var dto = new CreateUserDto
