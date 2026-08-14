@@ -69,5 +69,129 @@ namespace IntApplication.Services
 
             return IdentityResult.Success;
         }
+
+        public virtual async Task<IdentityResult> EditAsync(int userId, EditUserDto dto)
+
+
+        {
+            var user = await UserManager.FindByIdAsync(userId.ToString());
+
+            if (user == null)
+            {
+                return IdentityResult.Failed(
+                    new IdentityError
+                    {
+                        Description = "Utilisateur introuvable."
+                    });
+            }
+
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            user.Email = dto.Email;
+            user.UserName = dto.UserName;
+            user.TenantId = dto.TenantId;
+
+            var result = await UserManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            // Gestion des rôles
+            if (dto.Roles != null)
+            {
+                var currentRoles = await UserManager.GetRolesAsync(user);
+
+                var rolesToRemove = currentRoles
+                    .Except(dto.Roles)
+                    .ToArray();
+
+                var rolesToAdd = dto.Roles
+                    .Except(currentRoles)
+                    .ToArray();
+
+                if (rolesToRemove.Length > 0)
+                {
+                    var removeResult =
+                        await UserManager.RemoveFromRolesAsync(user, rolesToRemove);
+
+                    if (!removeResult.Succeeded)
+                    {
+                        return removeResult;
+                    }
+                }
+
+                if (rolesToAdd.Length > 0)
+                {
+                    var addResult =
+                        await UserManager.AddToRolesAsync(user, rolesToAdd);
+
+                    if (!addResult.Succeeded)
+                    {
+                        return addResult;
+                    }
+                }
+            }
+
+            // Changement de mot de passe uniquement s'il est fourni
+            if (!string.IsNullOrWhiteSpace(dto.Password))
+            {
+                var token = await UserManager.GeneratePasswordResetTokenAsync(user);
+
+                var passwordResult =
+                    await UserManager.ResetPasswordAsync(
+                        user,
+                        token,
+                        dto.Password);
+
+                if (!passwordResult.Succeeded)
+                {
+                    return passwordResult;
+                }
+            }
+
+            return IdentityResult.Success;
+        }
+
+        public virtual async Task<IdentityResult> DeleteAsync(int userId)
+        {
+            var user = await UserManager.FindByIdAsync(userId.ToString());
+
+            if (user == null)
+            {
+                return IdentityResult.Failed(
+                    new IdentityError
+                    {
+                        Description = "Utilisateur introuvable."
+                    });
+            }
+
+            return await UserManager.DeleteAsync(user);
+        }
+
+        public virtual async Task<IdentityResult> RemoveAsync(int userId, string[] roles)
+
+
+        {
+            var user = await UserManager.FindByIdAsync(userId.ToString());
+
+            if (user == null)
+            {
+                return IdentityResult.Failed(
+                    new IdentityError
+                    {
+                        Description = "Utilisateur introuvable."
+                    });
+            }
+
+            if (roles == null || roles.Length == 0)
+            {
+                return IdentityResult.Success;
+            }
+
+            return await UserManager.RemoveFromRolesAsync(user, roles);
+        }
     }
 }
+
