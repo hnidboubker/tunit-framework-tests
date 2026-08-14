@@ -1,9 +1,11 @@
 ﻿using IntApplication.DTOs;
 using IntApplication.Services;
+using IntApplication.UnitTests.Helpers;
 using IntCore.Models.Identity;
 using IntCore.Models.MultiTenancy;
 using Microsoft.AspNetCore.Identity;
 using Moq;
+
 
 namespace IntApplication.UnitTests.Services
 {
@@ -12,13 +14,14 @@ namespace IntApplication.UnitTests.Services
 
     public class UserServiceTests
     {
-        private readonly Mock<UserManager<User>> _userManagerMock;
+        private readonly Mock<UserManager<User>> UserManagerMock;
+        private readonly Mock<RoleManager<Role>> RoleManagerMock; 
         private readonly UserService _sut;
 
         public UserServiceTests()
         {
-            _userManagerMock = CreateUserManagerMock();
-            _sut = new UserServiceBui UserService(_userManagerMock.Object);
+            UserManagerMock = CreateUserManagerMock();
+            _sut = new UserService(UserManagerMock.Object, RoleManagerMock.Object);
         }
 
         private static Mock<UserManager<User>> CreateUserManagerMock()
@@ -49,10 +52,10 @@ namespace IntApplication.UnitTests.Services
 
             // Arrange
             var users = new List<User>();
-
-            _userManagerMock
+            var helper = QuerableHelper.CreateAsyncQueryable(users);
+            UserManagerMock
                 .Setup(x => x.Users)
-                .Returns(CreateAsyncQueryable(users));
+                .Returns(helper);
 
             // Act
             var result = await _sut.GetUsersAsync();
@@ -94,11 +97,12 @@ namespace IntApplication.UnitTests.Services
             }
         };
 
-            _userManagerMock
+            var helper = QuerableHelper.CreateAsyncQueryable(users);
+            UserManagerMock
                 .Setup(x => x.Users)
-                .Returns(CreateAsyncQueryable(users));
+                .Returns(helper);
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.GetRolesAsync(It.IsAny<User>()))
                 .ReturnsAsync(Array.Empty<string>());
 
@@ -122,7 +126,7 @@ namespace IntApplication.UnitTests.Services
         public async Task GetUsersAsync_ShouldMapUserProperties()
         {
             // Arrange
-            var user = new User
+            var user = new IntCore.Models.Identity.User
             {
                 Id = 1,
                 FirstName = "John",
@@ -135,12 +139,12 @@ namespace IntApplication.UnitTests.Services
                     Name = "My Tenant"
                 }
             };
-
-            _userManagerMock
+            var helper = QuerableHelper.CreateAsyncQueryable(new[] { user });
+            UserManagerMock
                 .Setup(x => x.Users)
-                .Returns(CreateAsyncQueryable(new[] { user }));
+                .Returns(helper);
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.GetRolesAsync(user))
                 .ReturnsAsync(new[] { "Admin" });
 
@@ -175,12 +179,12 @@ namespace IntApplication.UnitTests.Services
                 Email = "john@test.com",
                 Tenant = null
             };
-
-            _userManagerMock
+            var helper = QuerableHelper.CreateAsyncQueryable(new[] { user });
+            UserManagerMock
                 .Setup(x => x.Users)
-                .Returns(CreateAsyncQueryable(new[] { user }));
+                .Returns(helper);
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.GetRolesAsync(user))
                 .ReturnsAsync(Array.Empty<string>());
 
@@ -211,20 +215,20 @@ namespace IntApplication.UnitTests.Services
                 LastName = "User",
                 Email = "user@test.com"
             };
-
-            _userManagerMock
-                .Setup(x => x.Users)
-                .Returns(CreateAsyncQueryable(new[]
+            var helper = QuerableHelper.CreateAsyncQueryable(new[]
                 {
                 admin,
                 normalUser
-                }));
+                });
+            UserManagerMock
+                .Setup(x => x.Users)
+                .Returns(helper);
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.GetRolesAsync(admin))
                 .ReturnsAsync(new[] { "Admin" });
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.GetRolesAsync(normalUser))
                 .ReturnsAsync(new[] { "User" });
 
@@ -238,11 +242,11 @@ namespace IntApplication.UnitTests.Services
             await Assert.That(result[1].Roles)
                 .Contains("User");
 
-            _userManagerMock.Verify(
+            UserManagerMock.Verify(
                 x => x.GetRolesAsync(admin),
                 Times.Once);
 
-            _userManagerMock.Verify(
+            UserManagerMock.Verify(
                 x => x.GetRolesAsync(normalUser),
                 Times.Once);
         }
@@ -267,7 +271,7 @@ namespace IntApplication.UnitTests.Services
 
             User? capturedUser = null;
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.CreateAsync(
                     It.IsAny<User>(),
                     dto.Password))
@@ -313,7 +317,7 @@ namespace IntApplication.UnitTests.Services
                 Password = "Password123!"
             };
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.CreateAsync(
                     It.IsAny<User>(),
                     dto.Password))
@@ -323,7 +327,7 @@ namespace IntApplication.UnitTests.Services
             await _sut.CreateAsync(dto);
 
             // Assert
-            _userManagerMock.Verify(
+            UserManagerMock.Verify(
                 x => x.CreateAsync(
                     It.IsAny<User>(),
                     "Password123!"),
@@ -345,13 +349,13 @@ namespace IntApplication.UnitTests.Services
                 Roles = new[] { "Admin", "Manager" }
             };
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.CreateAsync(
                     It.IsAny<User>(),
                     dto.Password))
                 .ReturnsAsync(IdentityResult.Success);
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.AddToRolesAsync(
                     It.IsAny<User>(),
                     It.IsAny<IEnumerable<string>>()))
@@ -361,7 +365,7 @@ namespace IntApplication.UnitTests.Services
             await _sut.CreateAsync(dto);
 
             // Assert
-            _userManagerMock.Verify(
+            UserManagerMock.Verify(
                 x => x.AddToRolesAsync(
                     It.IsAny<User>(),
                     It.Is<IEnumerable<string>>(roles =>
@@ -384,7 +388,7 @@ namespace IntApplication.UnitTests.Services
                 Roles = null
             };
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.CreateAsync(
                     It.IsAny<User>(),
                     dto.Password))
@@ -394,7 +398,7 @@ namespace IntApplication.UnitTests.Services
             await _sut.CreateAsync(dto);
 
             // Assert
-            _userManagerMock.Verify(
+            UserManagerMock.Verify(
                 x => x.AddToRolesAsync(
                     It.IsAny<User>(),
                     It.IsAny<IEnumerable<string>>()),
@@ -415,7 +419,7 @@ namespace IntApplication.UnitTests.Services
                 Roles = Array.Empty<string>()
             };
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.CreateAsync(
                     It.IsAny<User>(),
                     dto.Password))
@@ -425,7 +429,7 @@ namespace IntApplication.UnitTests.Services
             await _sut.CreateAsync(dto);
 
             // Assert
-            _userManagerMock.Verify(
+            UserManagerMock.Verify(
                 x => x.AddToRolesAsync(
                     It.IsAny<User>(),
                     It.IsAny<IEnumerable<string>>()),
@@ -457,7 +461,7 @@ namespace IntApplication.UnitTests.Services
                     Description = "Email is invalid"
                 });
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.CreateAsync(
                     It.IsAny<User>(),
                     dto.Password))
@@ -486,7 +490,7 @@ namespace IntApplication.UnitTests.Services
                 Roles = new[] { "Admin" }
             };
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.CreateAsync(
                     It.IsAny<User>(),
                     dto.Password))
@@ -502,7 +506,7 @@ namespace IntApplication.UnitTests.Services
                 () => _sut.CreateAsync(dto));
 
             // Assert
-            _userManagerMock.Verify(
+            UserManagerMock.Verify(
                 x => x.AddToRolesAsync(
                     It.IsAny<User>(),
                     It.IsAny<IEnumerable<string>>()),
@@ -523,7 +527,7 @@ namespace IntApplication.UnitTests.Services
                 TenantId = null
             };
 
-            _userManagerMock
+            UserManagerMock
                 .Setup(x => x.CreateAsync(
                     It.IsAny<User>(),
                     dto.Password))
@@ -533,7 +537,7 @@ namespace IntApplication.UnitTests.Services
             await _sut.CreateAsync(dto);
 
             // Assert
-            _userManagerMock.Verify(
+            UserManagerMock.Verify(
                 x => x.CreateAsync(
                     It.Is<User>(u =>
                         u.TenantId == null),
@@ -545,10 +549,6 @@ namespace IntApplication.UnitTests.Services
         // IQueryable helper
         // ============================================================
 
-        private static IQueryable<User> CreateAsyncQueryable(
-            IEnumerable<User> users)
-        {
-            return new TestAsyncEnumerable<User>(users);
-        }
+       
     }
 }
