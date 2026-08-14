@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace IntApplication.UnitTests.Collections
 {
-
-    internal class TestAsyncQueryProvider<TEntity> : IQueryProvider
+    internal class TestAsyncQueryProvider<TEntity> : IAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -24,5 +24,8 @@ namespace IntApplication.UnitTests.Collections
 
         public TResult Execute<TResult>(Expression expression)
             => _inner.Execute<TResult>(expression);
+
+        public TResult ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken = default)
+            => Execute<TResult>(expression);
     }
 }
