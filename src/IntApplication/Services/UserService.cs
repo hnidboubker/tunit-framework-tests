@@ -1,4 +1,4 @@
-﻿using IntCore.DTOs;
+﻿using IntApplication.DTOs;
 using IntCore.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
