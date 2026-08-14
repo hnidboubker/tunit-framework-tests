@@ -445,5 +445,5 @@ build/**
 .DS_Store
 Thumbs.db
 
-.claude/**
+.claude/*
 !.claude/.gitkeep
