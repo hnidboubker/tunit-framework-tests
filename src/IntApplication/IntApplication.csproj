@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IntEntityFrameworkCore\IntEntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\IntInfrastructure\IntInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>
