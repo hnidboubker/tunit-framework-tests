@@ -11,8 +11,8 @@ Unit tests for the **IntCore** and **IntApplication** libraries, built with [![N
 | `IntCore` | net10.0 | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 10.0.11 | — | — |
 | `IntEntityFrameworkCore` | net10.0 | — | — | `IntCore` |
 | `IntApplication` | net10.0 | — | — | `IntEntityFrameworkCore` |
-| `IntCore.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 | TUnit · Moq | `IntCore` |
-| `IntApplication.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 | TUnit · Moq | `IntApplication` |
+| `IntCore.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 | TUnit · Moq | `IntCore` (tests only) |
+| `IntApplication.UnitTests` | net10.0 | `TUnit` 1.65.0 · `Moq` 4.20.72 | TUnit · Moq | `IntApplication` (tests only) |
 
 ## Solution Structure
 
