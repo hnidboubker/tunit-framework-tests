@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-  using Microsoft.AspNetCore.Identity;
-    using Moq;
-    using TUnit.Core;
-    using TUnit.Assertions;
-using IntCore.Models.Identity;
+﻿using IntApplication.DTOs;
 using IntApplication.Services;
+using IntCore.Models.Identity;
 using IntCore.Models.MultiTenancy;
-using IntApplication.DTOs;
+using Microsoft.AspNetCore.Identity;
+using Moq;
 
 namespace IntApplication.UnitTests.Services
 {
-  
+
 
 
     public class UserServiceTests
@@ -23,7 +18,7 @@ namespace IntApplication.UnitTests.Services
         public UserServiceTests()
         {
             _userManagerMock = CreateUserManagerMock();
-            _sut = new UserService(_userManagerMock.Object);
+            _sut = new UserServiceBui UserService(_userManagerMock.Object);
         }
 
         private static Mock<UserManager<User>> CreateUserManagerMock()
