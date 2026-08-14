@@ -2,7 +2,9 @@
 
 [![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)](https://github.com/hnidboubker/tunit-framework-tests)
 
-Unit tests for the **IntCore** library, built with [TUnit](https://github.com/thomhurst/TUnit) and [Moq](https://github.com/moq/moq).
+Unit tests for the **IntCore** library, built with [![NuGet Version](https://shields.io)](https://www.nuget.org/packages/TUnit)
+ and [![NuGet Version](https://shields.io)](https://www.nuget.org/packages/Moq)
+.
 
 ## Solution Structure
 
