@@ -30,5 +30,8 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Test
-        run: dotnet test --configuration Release --no-build
+      - name: Test Core
+        run: dotnet test tests/IntCore.UnitTests/IntCore.UnitTests.csproj --configuration Release --no-build
+
+      - name: Test Application
+        run: dotnet test tests/IntApplication.UnitTests/IntApplication.UnitTests.csproj --configuration Release --no-build
