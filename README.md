@@ -1,15 +1,15 @@
 # TUnit Framework Tests
 
 ![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)
-
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Unit tests for the **IntCore** and **IntApplication** libraries, built with [![NuGet Version](https://img.shields.io/nuget/v/TUnit.svg)](https://www.nuget.org/packages/TUnit) **TUnit** and [![NuGet Version](https://img.shields.io/nuget/v/Moq.svg)](https://www.nuget.org/packages/Moq) **Moq**.
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 
 ## Solution Overview
 
-| Project | Target Framework | NuGet Packages |
+| Project | Target  | NuGet Packages |
 |---------|-----------------|----------------|
 | `IntCore` | net10.0 | `Microsoft.AspNetCore.Identity.EntityFrameworkCore` 10.0.11 |
 | `IntEntityFrameworkCore` | net10.0 | — |
