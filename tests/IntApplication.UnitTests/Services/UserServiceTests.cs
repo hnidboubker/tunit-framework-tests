@@ -230,6 +230,7 @@ namespace IntApplication.UnitTests.Services
                 admin,
                 normalUser
                 });
+
             UserManagerMock
                 .Setup(x => x.Users)
                 .Returns(helper);
@@ -416,7 +417,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldNot_AddRoles_When_Roles_Are_Empty()
+        public async Task CreateAsync_ShouldNot_Add_Roles_When_Roles_Are_Empty()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -487,7 +488,7 @@ namespace IntApplication.UnitTests.Services
         }
 
         [Test]
-        public async Task CreateAsync_ShouldNot_AddRoles_When_Creation_Fails()
+        public async Task CreateAsync_ShouldNot_Add_Roles_When_Creation_Fails()
         {
             // Arrange
             var dto = new CreateUserDto
@@ -554,11 +555,5 @@ namespace IntApplication.UnitTests.Services
                     dto.Password),
                 Times.Once);
         }
-
-        // ============================================================
-        // IQueryable helper
-        // ============================================================
-
-       
     }
 }
