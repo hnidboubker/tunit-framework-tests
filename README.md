@@ -1,6 +1,6 @@
 # TUnit Framework Tests
 
-[![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)]
+![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)
 
 
 Unit tests for the **IntCore** and **IntApplication** libraries, built with [![NuGet Version](https://img.shields.io/nuget/v/TUnit.svg)](https://www.nuget.org/packages/TUnit) **TUnit** and [![NuGet Version](https://img.shields.io/nuget/v/Moq.svg)](https://www.nuget.org/packages/Moq) **Moq**.
