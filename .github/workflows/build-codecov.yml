@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    name: Run .NET unit tests and collect coverage
+    name: Run TUnit tests and collect coverage
     runs-on: ubuntu-latest
 
     steps:
@@ -23,12 +23,17 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build --configuration Release --no-restore
 
-      - name: Run tests
-        run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage"
+      - name: Run tests with coverage
+        run: dotnet test --configuration Release --no-build --coverage --coverage-output-format cobertura
 
-      - name: Upload results to Codecov
+      - name: Find coverage files
+        run: find . -name "coverage.cobertura.xml" -print
+
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./tests/**/TestResults/**/coverage.cobertura.xml
+          fail_ci_if_error: true
