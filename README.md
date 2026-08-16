@@ -1,6 +1,7 @@
 # TUnit Framework Tests
 
 ![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)
+[![codecov](https://codecov.io/github/hnidboubker/tunit-framework-tests/graph/badge.svg?token=ACEJGBXWU6)](https://codecov.io/github/hnidboubker/tunit-framework-tests)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Unit tests for the **IntCore** and **IntApplication** libraries, built with [![NuGet Version](https://img.shields.io/nuget/v/TUnit.svg)](https://www.nuget.org/packages/TUnit) **TUnit** and [![NuGet Version](https://img.shields.io/nuget/v/Moq.svg)](https://www.nuget.org/packages/Moq) **Moq**.
