@@ -26,14 +26,27 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Run tests with coverage
-        run: dotnet test --configuration Release --no-build --coverage --coverage-output-format cobertura
+        run: |
+          dotnet test \
+            --configuration Release \
+            --no-build \
+            --results-directory ./TestResults \
+            -- \
+            --coverage \
+            --coverage-output ./TestResults/coverage.cobertura.xml \
+            --coverage-output-format cobertura
 
-      - name: Find coverage files
-        run: find . -name "coverage.cobertura.xml" -print
+      - name: Check coverage file
+        if: always()
+        run: |
+          echo "Coverage files:"
+          find . -name "*.cobertura.xml" -print
 
       - name: Upload coverage to Codecov
+        if: success()
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./tests/**/TestResults/**/coverage.cobertura.xml
+          files: ./TestResults/coverage.cobertura.xml
           fail_ci_if_error: true
+          verbose: true
