@@ -25,8 +25,8 @@ namespace IntInfrastructure.UnitTests.Contracts
 
             var tenant = new Tenant
             {
-                // Id = ...
-                // Name = "Test"
+                Id = 1,
+                Name = "Test"
             };
 
             // Act
@@ -59,8 +59,8 @@ namespace IntInfrastructure.UnitTests.Contracts
 
             var tenant = new Tenant
             {
-                // Id = ...
-                // Name = "Test"
+                Id = 1,
+                Name = "Test"
             };
 
             await context.Set<Tenant>().AddAsync(tenant);
@@ -97,8 +97,8 @@ namespace IntInfrastructure.UnitTests.Contracts
 
             var tenant = new Tenant
             {
-                // Id = ...
-                // Name = "Test"
+                 Id = 1,
+                Name = "Test"
             };
 
             await context.Set<Tenant>().AddAsync(tenant);
@@ -133,14 +133,14 @@ namespace IntInfrastructure.UnitTests.Contracts
 
             var tenant1 = new Tenant
             {
-                // Id = ...
-                // Name = "Tenant 1"
+                 Id = 1,
+                 Name = "Tenant 1"
             };
 
             var tenant2 = new Tenant
             {
-                // Id = ...
-                // Name = "Tenant 2"
+                 Id = 2,
+                Name = "Tenant 2"
             };
 
             await context.Set<Tenant>().AddRangeAsync(tenant1, tenant2);
