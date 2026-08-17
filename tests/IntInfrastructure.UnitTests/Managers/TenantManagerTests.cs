@@ -138,8 +138,8 @@ namespace IntInfrastructure.UnitTests.Managers
             // Act
             var result = manager.Tenants;
 
-            // Assert
-            await Assert.That(result).IsSameReferenceAs(repository.Tenants);
+            // Assert - check sequence equality since IQueryable is recreated on each access
+            await Assert.That(result).IsEquivalentTo(repository.Tenants);
         }
 
 

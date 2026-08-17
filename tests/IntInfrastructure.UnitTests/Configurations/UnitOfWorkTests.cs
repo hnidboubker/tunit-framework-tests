@@ -1,4 +1,5 @@
-﻿using IntEntityFrameworkCore.Persistence;
+﻿using IntCore.Models.MultiTenancy;
+using IntEntityFrameworkCore.Persistence;
 using IntInfrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,13 +24,14 @@ namespace IntInfrastructure.UnitTests.Configurations
             using var context = CreateContext();
             var unitOfWork = new UnitOfWork(context);
 
-            // context.Products.Add(new Product { Name = "Test" });
+            context.Set<Tenant>().Add(new Tenant { Name = "Test Tenant" });
 
             // Act
             var result = unitOfWork.SaveChanges();
 
             // Assert
-           await Assert.That(result).IsEqualTo(1);
+            await Assert.That(result).IsEqualTo(1);
+            await Assert.That(context.Set<Tenant>().Count()).IsEqualTo(1);
         }
 
         [Test]
@@ -39,7 +41,7 @@ namespace IntInfrastructure.UnitTests.Configurations
             await using var context = CreateContext();
             var unitOfWork = new UnitOfWork(context);
 
-            // context.Products.Add(new Product { Name = "Test" });
+            context.Set<Tenant>().Add(new Tenant { Name = "Test Tenant" });
 
             // Act
             var result = await unitOfWork.SaveChangesAsync();
@@ -55,7 +57,7 @@ namespace IntInfrastructure.UnitTests.Configurations
             await using var context = CreateContext();
             var unitOfWork = new UnitOfWork(context);
 
-            // context.Products.Add(new Product { Name = "Test" });
+            context.Set<Tenant>().Add(new Tenant { Name = "Test Tenant" });
 
             using var cts = new CancellationTokenSource();
 
