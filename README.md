@@ -1,6 +1,6 @@
 # TUnit Framework Tests
 
-![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg)
+![Build & Tests](https://github.com/hnidboubker/tunit-framework-tests/actions/workflows/build-tests.yml/badge.svg?branch=main)
 [![codecov](https://codecov.io/github/hnidboubker/tunit-framework-tests/graph/badge.svg?token=ACEJGBXWU6)](https://codecov.io/github/hnidboubker/tunit-framework-tests)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
