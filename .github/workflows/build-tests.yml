@@ -35,3 +35,6 @@ jobs:
 
       - name: Test Application
         run: dotnet test tests/IntApplication.UnitTests/IntApplication.UnitTests.csproj --configuration Release --no-build
+
+      - name: Test IntInfrastructure
+        run: dotnet test tests/IntInfrastructure.UnitTests/IntInfrastructure.UnitTests.csproj --configuration Release --no-build
