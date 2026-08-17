@@ -14,9 +14,6 @@
 		<PackageReference Include="TUnit" Version="1.65.0" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\IntInfrastructure\IntInfrastructure.csproj" />
